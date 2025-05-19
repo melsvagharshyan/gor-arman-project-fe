@@ -2,7 +2,6 @@ import React, { useRef, useEffect, type FC } from "react";
 import ReactDOM from "react-dom";
 import { useForm } from "react-hook-form";
 import { useLoginMutation } from "../app/user/user.api";
-import { useNavigate } from "react-router-dom";
 
 interface Props {
   isOpen: boolean;
@@ -18,14 +17,11 @@ interface LoginFormValues {
 export const LoginModal: FC<Props> = ({ isOpen, onClose, onLoginSuccess }) => {
   const modalRef = useRef<HTMLDivElement>(null);
 
-  const navigate = useNavigate();
-
   const [handleLogin] = useLoginMutation();
 
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm<LoginFormValues>();
 

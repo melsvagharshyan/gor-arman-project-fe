@@ -27,7 +27,6 @@ export const RegistrationModal: FC<Props> = ({ isOpen, onClose }) => {
   const {
     register,
     handleSubmit,
-    reset,
     watch,
     formState: { errors },
   } = useForm<FormValues>();
