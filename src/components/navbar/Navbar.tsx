@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { RegistrationModal } from "../../modals/Registration";
 import { LoginModal } from "../../modals/Login";
-import { Menu, X } from "lucide-react"; // Optional: Install lucide-react or use any icon
+import { Menu, X } from "lucide-react"; // You can use any icons here
 
 const Navbar = ({
   user,
@@ -29,6 +29,7 @@ const Navbar = ({
             className="w-14 h-14 cursor-pointer"
           />
 
+          {/* Desktop links */}
           {user && (
             <ul className="hidden md:flex space-x-6 text-gray-700 font-medium">
               <li>
@@ -47,16 +48,7 @@ const Navbar = ({
           )}
         </div>
 
-        {/* Mobile menu toggle */}
-        {user && (
-          <button
-            className="md:hidden text-gray-700"
-            onClick={() => setIsMobileMenuOpen((prev) => !prev)}
-          >
-            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
-        )}
-
+        {/* Desktop auth buttons */}
         <div className="hidden md:flex space-x-4 items-center">
           {user ? (
             <>
@@ -87,46 +79,85 @@ const Navbar = ({
             </>
           )}
         </div>
+
+        {/* Mobile toggle */}
+        <button
+          className="md:hidden text-gray-700"
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        >
+          {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
       </div>
 
-      {/* Mobile menu links */}
-      {user && isMobileMenuOpen && (
-        <ul className="md:hidden px-4 pb-4 space-y-2 text-gray-700 font-medium">
-          <li>
-            <Link to="/" onClick={() => setIsMobileMenuOpen(false)}>
-              Home
-            </Link>
-          </li>
-          <li>
-            <Link to="/info" onClick={() => setIsMobileMenuOpen(false)}>
-              Info
-            </Link>
-          </li>
-          <li>
-            <Link to="/service" onClick={() => setIsMobileMenuOpen(false)}>
-              Service
-            </Link>
-          </li>
-          <li>
-            <Link to="/contact" onClick={() => setIsMobileMenuOpen(false)}>
-              Contact
-            </Link>
-          </li>
-          <li>
-            <button
-              onClick={() => {
-                setIsMobileMenuOpen(false);
-                onLogout();
-              }}
-              className="text-white bg-red-500 hover:bg-red-600 w-full text-left px-4 py-2 rounded"
-            >
-              Logout
-            </button>
-          </li>
-        </ul>
+      {/* Mobile menu */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden px-4 pb-4 space-y-2">
+          {user ? (
+            <>
+              <ul className="space-y-2 text-gray-700 font-medium">
+                <li>
+                  <Link to="/" onClick={() => setIsMobileMenuOpen(false)}>
+                    Home
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/info" onClick={() => setIsMobileMenuOpen(false)}>
+                    Info
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/service"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Service
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/contact"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    Contact
+                  </Link>
+                </li>
+              </ul>
+              <button
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  onLogout();
+                }}
+                className="w-full text-left text-white bg-red-500 hover:bg-red-600 px-4 py-2 rounded"
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <button
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  setIsLoginOpen(true);
+                }}
+                className="block w-full text-left text-gray-700 px-4 py-2 rounded"
+              >
+                Login
+              </button>
+              <button
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  setIsRegistrationOpen(true);
+                }}
+                className="block w-full text-left text-white bg-cyan-400 hover:bg-cyan-500 px-4 py-2 rounded"
+              >
+                Register
+              </button>
+            </>
+          )}
+        </div>
       )}
 
-      {/* Auth modals */}
+      {/* Modals */}
       <RegistrationModal
         isOpen={isRegistrationOpen}
         onClose={() => setIsRegistrationOpen(false)}
